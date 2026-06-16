@@ -40,34 +40,34 @@ Proyek ini didasari oleh urgensi perlunya deteksi dini performa mahasiswa untuk 
 
 ## 📊 Analisis & Visualisasi Data (EDA)
 
-Dalam proses *Exploratory Data Analysis*, kami menemukan beberapa *insight* krusial yang mendasari proses *Data Cleaning* dan pembentukan fitur baru:
+Dalam proses *Exploratory Data Analysis*, kami melakukan pembersihan data dan menemukan beberapa pola deskriptif perilaku mahasiswa yang saling berkaitan:
 
 ### 1. Identifikasi & Pembersihan Anomali Data (GPA 4.0 Palsu)
 Pada distribusi mentah, kami menemukan anomali fatal pada nilai **Final GPA 4.0**. Terdapat ribuan baris data siswa dengan IPK sempurna namun tercatat memiliki 0 jam belajar dan presensi yang sangat rendah. Baris *error* sistem ini kami bersihkan secara statistik untuk mencegah model memelajari pola yang salah (bias).
 
 ![Distribusi GPA Sebelum dan Sesudah Cleaning](images/distribusi_gpa.png)
-*(Visualisasi: Perbandingan distribusi GPA sebelum pembersihan yang memiliki lonjakan anomali di angka 4.0, dan distribusi natural setelah dibersihkan)*
 
-### 2. Peta Korelasi Variabel (Heatmap)
-Analisis korelasi multivariat menunjukkan bagaimana faktor internal dan eksternal saling tumpang tindih dalam memengaruhi IPK.
+### 2. Analisis Deskriptif (Temuan Perilaku Mahasiswa)
+Dari data yang telah dibersihkan dan fitur baru yang telah diekstraksi, kami menemukan 3 wawasan utama mengenai keseimbangan hidup mahasiswa:
+
+**A. Efisiensi Belajar vs GPA**
+![Efisiensi Belajar vs GPA](images/efisiensi_gpa.png)
+- **Temuan:** Terdapat kenaikan IPK yang sangat stabil dan konsisten seiring meningkatnya tingkat efisiensi belajar (rasio antara durasi belajar yang efektif dengan presensi/pemahaman). Hal ini membuktikan bahwa kualitas belajar lebih penting daripada sekadar kuantitas jam belajar.
+
+**B. Jam Tidur vs Indeks Stres**
+![Jam Tidur vs Indeks Stres](images/tidur_stres.png)
+- **Temuan:** Peningkatan durasi jam tidur berbanding lurus secara signifikan dengan penurunan indeks stres mahasiswa. Kurang tidur terbukti menjadi pemicu utama tingginya beban mental mahasiswa.
+
+**C. Penggunaan Teknologi vs Stres Mental**
+![Penggunaan Teknologi vs Stres Mental](images/teknologi_stres.png)
+- **Temuan:** Penggunaan teknologi intensif pada dataset ini terbukti berkorelasi dengan *penurunan* tingkat stres mental. Hal ini mengindikasikan bahwa teknologi sering digunakan sebagai sarana hiburan (game/media sosial) untuk relaksasi di luar jam akademik.
+
+### 3. Peta Korelasi Variabel (Heatmap)
+Analisis multivariat menunjukkan bagaimana faktor-faktor di atas secara keseluruhan memengaruhi IPK akhir.
 
 ![Heatmap Korelasi](images/heatmap_korelasi.png)
 
-
-**Temuan Utama dari Heatmap:**
-- Variabel akademik seperti `standardized_exam_score` memiliki korelasi positif paling kuat terhadap `final_gpa`.
-- Terdapat korelasi negatif yang jelas antara tingkat stres tinggi dengan penurunan performa, yang berujung pada peningkatan *flag* risiko *dropout*.
-
-### 3. Dampak Feature Engineering (Efisiensi Belajar)
-Kombinasi fitur mentah menjadi indikator baru membuka perspektif yang lebih akurat mengenai kebiasaan mahasiswa.
-
-![Korelasi Fitur Baru](images/korelasi_fitur.png)
-
-
-**Temuan Utama Ekstraksi Fitur:**
-- **Efisiensi Belajar:** Terdapat kenaikan IPK yang sangat stabil seiring meningkatnya efisiensi belajar (rasio antara waktu belajar yang digunakan dengan presensi dan pemahaman).
-- **Penggunaan Teknologi:** Berbeda dengan asumsi umum, penggunaan teknologi intensif pada dataset ini justru berkorelasi dengan *penurunan* tingkat stres mental, kemungkinan berfungsi sebagai sarana relaksasi (hiburan/game).
-- **Stres vs Jam Tidur:** Durasi tidur yang cukup berbanding lurus secara signifikan dengan penurunan indeks stres.
+- **Temuan Utama Heatmap:** Variabel akademik (seperti `standardized_exam_score`) memiliki korelasi positif paling kuat terhadap `final_gpa`. Di sisi lain, terdapat korelasi negatif yang jelas antara tingkat stres tinggi dengan penurunan performa (peningkatan *flag* risiko *dropout*).
 
 ---
 
@@ -89,18 +89,18 @@ Setelah dilatih menggunakan data yang bersih, model KNN menunjukkan performa yan
 
 ## 💡 Insight & Tindak Lanjut Strategis
 
-Dari hasil pemodelan dan analisis fitur, manajemen institusi pendidikan dapat memetakan mahasiswa ke dalam beberapa profil untuk melakukan intervensi berbasis data (*data-driven*):
+Dari hasil pemodelan dan analisis EDA di atas, manajemen institusi pendidikan dapat memetakan mahasiswa ke dalam profil tertentu untuk melakukan intervensi berbasis data (*data-driven*):
 
 🎓 **Profil 1: Top Performer (Efisiensi Tinggi)**
-- **Karakteristik:** Memiliki *Study Efficiency Index* tinggi. Mereka membuktikan bahwa IPK unggul tidak dicapai dari sekadar durasi belajar yang ekstrem, melainkan keseimbangan antara fokus akademik dan jam tidur yang teratur (kesejahteraan mental terjaga).
-- **Tindak Lanjut:** Jadikan kelompok ini sebagai agen pendampingan (*peer-mentor*) bagi mahasiswa di tingkat bawahnya, serta berikan apresiasi/beasiswa untuk menjaga retensi prestasi.
+- **Karakteristik:** Memiliki *Study Efficiency Index* tinggi. Mereka membuktikan bahwa IPK unggul dicapai bukan dari durasi belajar ekstrem, melainkan keseimbangan antara fokus akademik dan jam tidur yang teratur.
+- **Tindak Lanjut:** Jadikan kelompok ini sebagai agen pendampingan (*peer-mentor*) bagi mahasiswa di tingkat bawahnya, serta berikan apresiasi/beasiswa.
 
 ⚠️ **Profil 2: Berisiko Tinggi (Risiko Dropout)**
-- **Karakteristik:** Terdeteksi memiliki indeks stres tinggi, jam tidur minim, dan efisiensi belajar rendah. Kondisi komulatif ini secara matematis menggerus IPK mereka hingga diklasifikasikan ke dalam `at_risk_flag`.
-- **Tindak Lanjut (Sistem Peringatan Dini):** Ketika model memprediksi status risiko (*at risk*), kampus harus segera mengalokasikan bimbingan konseling akademik atau psikologis proaktif, serta lokakarya manajemen waktu, *sebelum* kegagalan akademik benar-benar terjadi.
+- **Karakteristik:** Terdeteksi memiliki indeks stres tinggi, jam tidur minim, dan efisiensi belajar rendah. Kondisi kumulatif ini secara matematis menggerus IPK mereka hingga diklasifikasikan ke dalam `at_risk_flag`.
+- **Tindak Lanjut (Sistem Peringatan Dini):** Ketika model memprediksi status risiko (*at risk*), kampus harus segera mengalokasikan bimbingan konseling proaktif serta lokakarya manajemen waktu, *sebelum* kegagalan akademik terjadi.
 
 **Kesimpulan Utama:**
-Durasi jam belajar saja **tidak cukup** jika tidak diimbangi dengan kualitas kesejahteraan mahasiswa. Efisiensi belajar dan kesejahteraan akademik (tidur, stres, aktivitas) adalah pilar penentu IPK yang sebenarnya.
+Durasi jam belajar saja **tidak cukup** jika tidak diimbangi dengan kualitas kesejahteraan mahasiswa. Efisiensi belajar dan kesejahteraan mental (tidur, stres, aktivitas relaksasi) adalah pilar penentu IPK yang sebenarnya.
 
 ---
 
