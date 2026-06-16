@@ -42,12 +42,24 @@ Proyek ini didasari oleh urgensi perlunya deteksi dini performa mahasiswa untuk 
 
 Dalam proses *Exploratory Data Analysis*, kami melakukan pembersihan data dan menemukan beberapa pola deskriptif perilaku mahasiswa yang saling berkaitan:
 
-### 1. Identifikasi & Pembersihan Anomali Data (GPA 4.0 Palsu)
+### 1. Peta Korelasi Variabel (Heatmap)
+Analisis multivariat melalui matriks korelasi digunakan sebagai landasan *Feature Selection* untuk mengevaluasi hubungan linier antar variabel sekaligus mendeteksi multikolinearitas.
+
+![Heatmap Korelasi](images/heatmap_korelasi.png)
+
+**Insight Utama dari Heatmap:**
+- **Korelasi Positif Terkuat:** Variabel akademik murni seperti `standardized_exam_score` memiliki hubungan positif paling signifikan terhadap `final_gpa`.
+- **Korelasi Negatif (Risiko Dropout):** Variabel `stress_level` memperlihatkan korelasi negatif yang nyata terhadap performa akademik. Semakin tinggi tingkat stres, semakin rendah IPK yang diraih, yang secara langsung meningkatkan visibilitas pada klasifikasi target `at_risk_flag`.
+- **Reduksi Fitur:** Berdasarkan matriks ini, atribut dengan tingkat korelasi sangat lemah (mendekati 0) terhadap variabel target dieksklusi dari tahap pemodelan guna mengoptimalkan komputasi KNN.
+
+---
+
+### 2. Identifikasi & Pembersihan Anomali Data (GPA 4.0 Palsu)
 Pada distribusi mentah, kami menemukan anomali fatal pada nilai **Final GPA 4.0**. Terdapat ribuan baris data siswa dengan IPK sempurna namun tercatat memiliki 0 jam belajar dan presensi yang sangat rendah. Baris *error* sistem ini kami bersihkan secara statistik untuk mencegah model memelajari pola yang salah (bias).
 
 ![Distribusi GPA Sebelum dan Sesudah Cleaning](images/distribusi_gpa.png)
 
-### 2. Analisis Deskriptif (Temuan Perilaku Mahasiswa)
+### 3. Analisis Deskriptif (Temuan Perilaku Mahasiswa)
 Dari data yang telah dibersihkan dan fitur baru yang telah diekstraksi, kami menemukan 3 wawasan utama mengenai keseimbangan hidup mahasiswa:
 
 **A. Efisiensi Belajar vs GPA**
@@ -62,14 +74,7 @@ Dari data yang telah dibersihkan dan fitur baru yang telah diekstraksi, kami men
 ![Penggunaan Teknologi vs Stres Mental](images/teknologi_stres.png)
 - **Temuan:** Penggunaan teknologi intensif pada dataset ini terbukti berkorelasi dengan *penurunan* tingkat stres mental. Hal ini mengindikasikan bahwa teknologi sering digunakan sebagai sarana hiburan (game/media sosial) untuk relaksasi di luar jam akademik.
 
-### 3. Peta Korelasi Variabel (Heatmap)
-Analisis multivariat menunjukkan bagaimana faktor-faktor di atas secara keseluruhan memengaruhi IPK akhir.
 
-![Heatmap Korelasi](images/heatmap_korelasi.png)
-
-- **Temuan Utama Heatmap:** Variabel akademik (seperti `standardized_exam_score`) memiliki korelasi positif paling kuat terhadap `final_gpa`. Di sisi lain, terdapat korelasi negatif yang jelas antara tingkat stres tinggi dengan penurunan performa (peningkatan *flag* risiko *dropout*).
-
----
 
 ## 🚀 Evaluasi Performa Model ML
 
@@ -109,4 +114,4 @@ Durasi jam belajar saja **tidak cukup** jika tidak diimbangi dengan kualitas kes
 Tonton penjelasan lengkap mengenai proses analisis, pembersihan data, dan visualisasi temuan kami pada video presentasi berikut:
 
 [![Video Presentasi Kelompok 13](https://img.youtube.com/vi/h1h2nzqtd9c/maxresdefault.jpg)](https://youtu.be/h1h2nzqtd9c)
-_(Klik gambar di atas untuk memutar video)_
+*(Klik gambar di atas untuk memutar video)*
