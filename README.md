@@ -24,8 +24,8 @@ Proyek ini didasari oleh urgensi perlunya deteksi dini performa mahasiswa untuk 
 
 ## ⚙️ Alur Pemrosesan Data (Data Pipeline)
 
-![Data Pipeline](images/Pipeline_BigData.png)
-_(Catatan: pastikan gambar flowchart sudah di-upload ke folder 'images' di GitHub)_
+<img src="images/Pipeline_BigData.png" alt="Data Pipeline" width="700">
+
 
 1. **Ekstraksi Data (Extract):** Mengimpor 1.000.000 baris dan 52 kolom dataset dari Kaggle.
 2. **Transformasi & Pembersihan (Transform):**
