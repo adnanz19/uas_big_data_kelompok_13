@@ -86,17 +86,23 @@ Berdasarkan peta korelasi di atas, kami membedah lebih dalam wawasan spesifik me
 
 ## 🚀 Evaluasi Performa Model ML
 
-Setelah dilatih menggunakan dataset yang telah dibersihkan dan direkayasa fiturnya, model KNN menunjukkan performa yang menjanjikan:
+Setelah dilatih menggunakan dataset yang telah dibersihkan dan direkayasa fiturnya, model dievaluasi menggunakan metode validasi silang (*Cross-Validation*) untuk memastikan keandalannya:
 
-**1. KNN Regressor (Prediksi final_gpa)**
-- **Rata-rata R² Score:** 0.6493
-- **Rata-rata Mean Absolute Error (MAE):** 0.2944
+### 1. KNN Regressor (Prediksi *final_gpa*)
+Evaluasi menggunakan K-Fold Cross Validation menunjukkan hasil prediksi yang stabil di setiap *fold*-nya:
+- **Skor R² per fold:** `[0.6487, 0.6515, 0.6497, 0.6476, 0.6487]`
+- **Rata-rata R² Score:** **0.6493** (± 0.0013)
+- **Rata-rata Mean Absolute Error (MAE):** **0.2944** (± 0.0009)
 
-**2. KNN Classifier (Deteksi at_risk_flag)**
-- **Accuracy:** 0.78 (78%)
-- **Precision (Macro Avg):** 0.78
-- **Recall (Macro Avg):** 0.78
-- **F1-Score (Macro Avg):** 0.78
+### 2. KNN Classifier (Deteksi *at_risk_flag*)
+Evaluasi performa klasifikasi (menggunakan *Stratified K-Fold*) untuk mendeteksi apakah mahasiswa masuk dalam kategori aman `(0)` atau berisiko *dropout* `(1)`.
+
+| Kelas Target | Precision | Recall | F1-Score | Support (Sampel) |
+| :--- | :--- | :--- | :--- | :--- |
+| **0 (Aman)** | 0.76 | 0.81 | 0.79 | 47.708 |
+| **1 (Berisiko)** | 0.80 | 0.74 | 0.77 | 47.247 |
+| **Accuracy** | | | **0.78** | 94.955 |
+| **Macro Avg** | 0.78 | 0.78 | 0.78 | 94.955 |
 
 ---
 
@@ -112,8 +118,15 @@ Dari hasil pemodelan, manajemen institusi pendidikan dapat memetakan mahasiswa k
 - **Karakteristik:** Terdeteksi memiliki indeks stres tinggi, jam tidur minim, dan efisiensi belajar rendah. Kondisi kumulatif ini secara matematis menggerus IPK mereka hingga diklasifikasikan ke dalam `at_risk_flag`.
 - **Tindak Lanjut (Sistem Peringatan Dini):** Ketika model memprediksi status risiko (*at risk*), kampus harus segera mengalokasikan bimbingan konseling proaktif serta lokakarya manajemen waktu, *sebelum* kegagalan akademik terjadi.
 
-**Kesimpulan Utama:**
-Durasi jam belajar saja **tidak cukup** jika tidak diimbangi dengan kualitas kesejahteraan fisik dan mental mahasiswa. Efisiensi belajar dan kesejahteraan holistik adalah pilar penentu performa akademik yang sebenarnya.
+---
+
+## 📌 Kesimpulan & Rekomendasi
+
+**Kesimpulan:**
+Berdasarkan hasil analisis data dan model yang telah dibangun, dapat disimpulkan bahwa efisiensi belajar (rasio jam belajar efektif terhadap stres) dan kesejahteraan akademik (keseimbangan tidur, aktivitas fisik, dan stres) terbukti secara matematis berdampak langsung pada peningkatan IPK. Durasi jam belajar saja tidak cukup jika tidak diimbangi dengan kualitas kesejahteraan mahasiswa.
+
+**Rekomendasi:**
+Institusi pendidikan dapat menggunakan model prediktif ini untuk melakukan intervensi dini kepada mahasiswa yang terdeteksi memiliki profil kesejahteraan rendah dan risiko dropout tinggi. Intervensi dapat berupa konseling akademik atau psikologis yang ditargetkan untuk membantu mahasiswa mengelola stres, meningkatkan efisiensi belajar, dan mencegah kegagalan akademik.
 
 ---
 
