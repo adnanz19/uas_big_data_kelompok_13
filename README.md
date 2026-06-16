@@ -38,47 +38,55 @@ Proyek ini didasari oleh urgensi perlunya deteksi dini performa mahasiswa untuk 
 
 ---
 
-## 📊 Analisis & Visualisasi Data (EDA)
+## 📊 Analisis Deskriptif & Visualisasi Data
 
-Dalam proses *Exploratory Data Analysis*, kami melakukan pembersihan data dan menemukan beberapa pola deskriptif perilaku mahasiswa yang saling berkaitan:
+Dalam proses eksplorasi dan pembersihan data, kami menemukan beberapa pola perilaku mahasiswa dan anomali sistem yang saling berkaitan:
 
-### 1. Peta Korelasi Variabel (Heatmap)
-Analisis multivariat melalui matriks korelasi digunakan sebagai landasan *Feature Selection* untuk mengevaluasi hubungan linier antar variabel sekaligus mendeteksi multikolinearitas.
+### 1. Ringkasan Statistik & Temuan Anomali
+Sebelum dilakukan pembersihan mendalam, peninjauan statistik deskriptif pada data mentah menunjukkan adanya indikasi *noise* atau *error* pencatatan pada dataset.
+
+| Statistik | `study_hours_daily` | `attendance_rate` | `assignment_avg` |
+| :--- | :--- | :--- | :--- |
+| **mean** | 3.997852 | 0.891627 | 82.573312 |
+| **min** | 0.000000 | 0.484017 | 27.526290 |
+| **max** | 8.011250 | 1.000000 | **140.180330** |
+
+**Temuan Anomali:** Pada tabel di atas, terlihat nilai maksimum untuk `assignment_avg` mencapai **140.18**. Angka ini tidak logis karena batas maksimal nilai penugasan akademik yang wajar adalah 100. Temuan ini menjadi landasan kuat mengapa tahapan *Data Cleansing* mutlak diperlukan sebelum melatih model.
+
+### 2. Identifikasi & Pembersihan Anomali Data (GPA 4.0 Palsu)
+Selain nilai tugas yang tidak logis, pada distribusi mentah kami menemukan anomali fatal pada nilai **Final GPA 4.0**. Terdapat ribuan baris data siswa dengan IPK sempurna namun tercatat memiliki 0 jam belajar dan presensi yang sangat rendah. Baris cacat ini kami bersihkan secara statistik untuk mencegah model memelajari pola yang bias.
+
+![Distribusi GPA Sebelum dan Sesudah Cleaning](images/distribusi_gpa.png)
+
+### 3. Peta Korelasi Variabel (Heatmap)
+Setelah data dibersihkan, analisis multivariat melalui matriks korelasi dilakukan untuk melihat gambaran besar hubungan linier antar variabel. Matriks ini juga menjadi landasan utama proses *Feature Selection*.
 
 ![Heatmap Korelasi](images/heatmap_korelasi.png)
 
 **Insight Utama dari Heatmap:**
-- **Korelasi Positif Terkuat:** Variabel akademik murni seperti `standardized_exam_score` memiliki hubungan positif paling signifikan terhadap `final_gpa`.
-- **Korelasi Negatif (Risiko Dropout):** Variabel `stress_level` memperlihatkan korelasi negatif yang nyata terhadap performa akademik. Semakin tinggi tingkat stres, semakin rendah IPK yang diraih, yang secara langsung meningkatkan visibilitas pada klasifikasi target `at_risk_flag`.
-- **Reduksi Fitur:** Berdasarkan matriks ini, atribut dengan tingkat korelasi sangat lemah (mendekati 0) terhadap variabel target dieksklusi dari tahap pemodelan guna mengoptimalkan komputasi KNN.
+- **Korelasi Positif Terkuat:** Variabel akademik murni seperti `standardized_exam_score` memiliki hubungan positif paling signifikan terhadap target `final_gpa`.
+- **Korelasi Negatif (Risiko Dropout):** Variabel `stress_level` memperlihatkan korelasi negatif yang nyata terhadap performa akademik. Semakin tinggi tingkat stres, semakin rendah IPK yang diraih, yang secara otomatis meningkatkan probabilitas klasifikasi pada target `at_risk_flag`.
 
----
-
-### 2. Identifikasi & Pembersihan Anomali Data (GPA 4.0 Palsu)
-Pada distribusi mentah, kami menemukan anomali fatal pada nilai **Final GPA 4.0**. Terdapat ribuan baris data siswa dengan IPK sempurna namun tercatat memiliki 0 jam belajar dan presensi yang sangat rendah. Baris *error* sistem ini kami bersihkan secara statistik untuk mencegah model memelajari pola yang salah (bias).
-
-![Distribusi GPA Sebelum dan Sesudah Cleaning](images/distribusi_gpa.png)
-
-### 3. Analisis Deskriptif (Temuan Perilaku Mahasiswa)
-Dari data yang telah dibersihkan dan fitur baru yang telah diekstraksi, kami menemukan 3 wawasan utama mengenai keseimbangan hidup mahasiswa:
+### 4. Analisis Deskriptif (Temuan Perilaku Mahasiswa)
+Berdasarkan peta korelasi di atas, kami membedah lebih dalam wawasan spesifik mengenai gaya hidup dan keseimbangan mahasiswa menggunakan fitur baru yang telah diekstraksi:
 
 **A. Efisiensi Belajar vs GPA**
 ![Efisiensi Belajar vs GPA](images/efisiensi_gpa.png)
-- **Temuan:** Terdapat kenaikan IPK yang sangat stabil dan konsisten seiring meningkatnya tingkat efisiensi belajar (rasio antara durasi belajar yang efektif dengan presensi/pemahaman). Hal ini membuktikan bahwa kualitas belajar lebih penting daripada sekadar kuantitas jam belajar.
+- **Temuan:** Terdapat kenaikan IPK yang sangat stabil dan konsisten seiring meningkatnya tingkat efisiensi belajar (rasio antara durasi belajar yang efektif dengan presensi/pemahaman). Kualitas pemahaman terbukti lebih krusial dibandingkan sekadar kuantitas jam belajar.
 
 **B. Jam Tidur vs Indeks Stres**
 ![Jam Tidur vs Indeks Stres](images/tidur_stres.png)
-- **Temuan:** Peningkatan durasi jam tidur berbanding lurus secara signifikan dengan penurunan indeks stres mahasiswa. Kurang tidur terbukti menjadi pemicu utama tingginya beban mental mahasiswa.
+- **Temuan:** Peningkatan durasi jam tidur berbanding lurus secara signifikan dengan penurunan indeks stres mahasiswa. Kurang tidur terbukti menjadi pemicu utama tingginya beban mental akademik.
 
 **C. Penggunaan Teknologi vs Stres Mental**
 ![Penggunaan Teknologi vs Stres Mental](images/teknologi_stres.png)
-- **Temuan:** Penggunaan teknologi intensif pada dataset ini terbukti berkorelasi dengan *penurunan* tingkat stres mental. Hal ini mengindikasikan bahwa teknologi sering digunakan sebagai sarana hiburan (game/media sosial) untuk relaksasi di luar jam akademik.
+- **Temuan:** Penggunaan teknologi intensif pada dataset ini terbukti berkorelasi dengan *penurunan* tingkat stres mental. Hal ini mengindikasikan bahwa teknologi sering difungsikan sebagai sarana relaksasi (game/media sosial) di luar jam akademik.
 
-
+---
 
 ## 🚀 Evaluasi Performa Model ML
 
-Setelah dilatih menggunakan data yang bersih, model KNN menunjukkan performa yang menjanjikan:
+Setelah dilatih menggunakan dataset yang telah dibersihkan dan direkayasa fiturnya, model KNN menunjukkan performa yang menjanjikan:
 
 **1. KNN Regressor (Prediksi final_gpa)**
 - **Rata-rata R² Score:** 0.6493
@@ -94,7 +102,7 @@ Setelah dilatih menggunakan data yang bersih, model KNN menunjukkan performa yan
 
 ## 💡 Insight & Tindak Lanjut Strategis
 
-Dari hasil pemodelan dan analisis EDA di atas, manajemen institusi pendidikan dapat memetakan mahasiswa ke dalam profil tertentu untuk melakukan intervensi berbasis data (*data-driven*):
+Dari hasil pemodelan, manajemen institusi pendidikan dapat memetakan mahasiswa ke dalam profil tertentu untuk melakukan intervensi berbasis data (*data-driven*):
 
 🎓 **Profil 1: Top Performer (Efisiensi Tinggi)**
 - **Karakteristik:** Memiliki *Study Efficiency Index* tinggi. Mereka membuktikan bahwa IPK unggul dicapai bukan dari durasi belajar ekstrem, melainkan keseimbangan antara fokus akademik dan jam tidur yang teratur.
@@ -105,7 +113,7 @@ Dari hasil pemodelan dan analisis EDA di atas, manajemen institusi pendidikan da
 - **Tindak Lanjut (Sistem Peringatan Dini):** Ketika model memprediksi status risiko (*at risk*), kampus harus segera mengalokasikan bimbingan konseling proaktif serta lokakarya manajemen waktu, *sebelum* kegagalan akademik terjadi.
 
 **Kesimpulan Utama:**
-Durasi jam belajar saja **tidak cukup** jika tidak diimbangi dengan kualitas kesejahteraan mahasiswa. Efisiensi belajar dan kesejahteraan mental (tidur, stres, aktivitas relaksasi) adalah pilar penentu IPK yang sebenarnya.
+Durasi jam belajar saja **tidak cukup** jika tidak diimbangi dengan kualitas kesejahteraan fisik dan mental mahasiswa. Efisiensi belajar dan kesejahteraan holistik adalah pilar penentu performa akademik yang sebenarnya.
 
 ---
 
