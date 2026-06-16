@@ -3,11 +3,11 @@
 **Kelompok 13** | **Kelas A S-1 Informatika**
 
 ## 👥 Anggota Kelompok
-| Nama | NPM / NIM |
+| Nama | NIM |
 | :--- | :--- |
 | **Pandu Nugraha Saputra** | 2310511029 |
 | **Bima Adnandita** | 2310511039 |
-| **Rafli Wahyu Pratama** | 2310511029 |
+| **Rafli Wahyu Pratama** | 2310511031 |
 
 ---
 
