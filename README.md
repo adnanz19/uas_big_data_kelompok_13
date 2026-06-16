@@ -24,7 +24,7 @@ Proyek ini didasari oleh urgensi perlunya deteksi dini performa mahasiswa untuk 
 
 ## ⚙️ Alur Pemrosesan Data (Data Pipeline)
 
-<img src="images/Pipeline_BigData.png" alt="Data Pipeline" width="700">
+<img src="images/Pipeline_BigData.png" alt="Data Pipeline" width="300">
 
 
 1. **Ekstraksi Data (Extract):** Mengimpor 1.000.000 baris dan 52 kolom dataset dari Kaggle.
