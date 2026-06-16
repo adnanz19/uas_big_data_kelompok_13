@@ -52,7 +52,7 @@ Pada distribusi mentah, kami menemukan anomali fatal pada nilai **Final GPA 4.0*
 Analisis korelasi multivariat menunjukkan bagaimana faktor internal dan eksternal saling tumpang tindih dalam memengaruhi IPK.
 
 ![Heatmap Korelasi](images/heatmap_korelasi.png)
-*(Visualisasi: Matriks korelasi antar variabel akademik, gaya hidup, dan performa)*
+
 
 **Temuan Utama dari Heatmap:**
 - Variabel akademik seperti `standardized_exam_score` memiliki korelasi positif paling kuat terhadap `final_gpa`.
@@ -62,7 +62,7 @@ Analisis korelasi multivariat menunjukkan bagaimana faktor internal dan eksterna
 Kombinasi fitur mentah menjadi indikator baru membuka perspektif yang lebih akurat mengenai kebiasaan mahasiswa.
 
 ![Korelasi Fitur Baru](images/korelasi_fitur.png)
-*(Visualisasi: Dampak Study Efficiency Index dan indikator gaya hidup terhadap IPK)*
+
 
 **Temuan Utama Ekstraksi Fitur:**
 - **Efisiensi Belajar:** Terdapat kenaikan IPK yang sangat stabil seiring meningkatnya efisiensi belajar (rasio antara waktu belajar yang digunakan dengan presensi dan pemahaman).
