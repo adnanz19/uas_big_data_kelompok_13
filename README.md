@@ -3,7 +3,7 @@
 **Kelompok 13** | **Kelas A S-1 Informatika**
 
 ## 👥 Anggota Kelompok
-| Nama | NIM |
+| Nama | NPM / NIM |
 | :--- | :--- |
 | **Pandu Nugraha Saputra** | 2310511029 |
 | **Bima Adnandita** | 2310511039 |
@@ -20,9 +20,12 @@ Proyek ini didasari oleh urgensi perlunya deteksi dini performa mahasiswa untuk 
 3. Menyediakan benchmark sistem prediktif yang terukur untuk mendukung pengambilan keputusan berbasis data (data-driven) bagi pihak manajemen institusi pendidikan.
 
 ## ⚙️ Alur Pemrosesan Data (Data Pipeline)
+![Data Pipeline](images/nama_file_flowchart_kamu.png) 
+*(Catatan: pastikan gambar flowchart sudah di-upload ke folder 'images' di GitHub)*
+
 1. **Ekstraksi Data (Extract):** Mengimpor 1.000.000 baris dan 52 kolom dataset dari Kaggle.
 2. **Transformasi & Pembersihan (Transform):**
-   - Mengeliminasi ~50.000 data anomali/invalid (contoh: menghapus 42% baris data dengan IPK 4.0 palsu yang terbukti cacat secara statistik).
+   - Mengeliminasi ~50.000 data anomali/invalid (contoh: menghapus 4.489 baris data dengan IPK 4.0 palsu yang terbukti cacat secara statistik).
    - Menangani missing value dan membuang data dengan nilai ujian/tugas tidak logis (skor > 100 atau < 0).
 3. **Feature Selection & Engineering:** - Melakukan reduksi dimensi fitur via analisis korelasi.
    - Mentransformasi variabel mentah menjadi indikator baru seperti *Study Efficiency Index*, *Health & Wellness Score*, dan *Total Tech Usage*.
@@ -52,3 +55,11 @@ Efisiensi belajar (rasio jam belajar efektif terhadap stres) dan kesejahteraan a
 
 **Rekomendasi:**
 Institusi pendidikan direkomendasikan untuk menggunakan model prediktif ini sebagai alat intervensi dini kepada mahasiswa yang terdeteksi memiliki profil kesejahteraan rendah dan risiko dropout tinggi. Intervensi dapat berupa konseling akademik atau psikologis yang ditargetkan untuk membantu mahasiswa mengelola stres dan meningkatkan efisiensi belajar.
+
+---
+
+## 📺 Video Presentasi Proyek
+Tonton penjelasan lengkap mengenai proses analisis, pembersihan data, dan visualisasi temuan kami pada video presentasi berikut:
+
+[![Video Presentasi Kelompok 13](https://img.youtube.com/vi/h1h2nzqtd9c/maxresdefault.jpg)](https://youtu.be/h1h2nzqtd9c)
+*(Klik gambar di atas untuk memutar video)*
